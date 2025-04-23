@@ -4,6 +4,7 @@ LABEL \
   name="releng-test-product" \
   com.redhat.component="releng-test-product" \
   description="Test description from containerfile " \
+  summary="Test summary" \
   io.k8s.description="Test io.k8s description from containerfile" \
   io.k8s.display-name="releng-test-product" \
   io.openshift.tags="releng-test-product"
