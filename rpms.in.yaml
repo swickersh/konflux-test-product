@@ -1,0 +1,4 @@
+packages: [jq] # not needed for us, just prefetching this as a test
+contentOrigin:
+  repofiles: ["./ubi.repo"]
+arches: [x86_64]

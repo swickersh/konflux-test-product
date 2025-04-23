@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi9/ubi-minimal
+FROM registry.access.redhat.com/ubi9/ubi:9.5-1730489303
 
 LABEL \
   name="releng-test-product" \
@@ -7,8 +7,6 @@ LABEL \
   io.k8s.description="Test io.k8s description from containerfile" \
   io.k8s.display-name="releng-test-product" \
   io.openshift.tags="releng-test-product"
-
-RUN microdnf install -y gzip
 
 RUN mkdir -p /releases && \
     echo 'hello world' | gzip > /releases/linux_test_binary.gz && \
