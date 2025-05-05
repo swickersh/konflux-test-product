@@ -1,3 +1,3 @@
 # konflux-test-product
-Test product to be built and released with konflux
+Test Product to be built and released with konflux
 
