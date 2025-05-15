@@ -10,6 +10,8 @@ LABEL \
   io.openshift.tags="releng-test-product"
 
 RUN mkdir -p /releases && \
-    echo 'hello world' | gzip > /releases/releng-test-product-binaries-linux_test_binary.gz && \
-    echo 'hello world' | gzip > /releases/releng-test-product-binaries-windows_test_binary.gz && \
-    echo 'hello world' | gzip > /releases/releng-test-product-binaries-darwin_test_binary.gz
+    echo 'hello world' | gzip > /releases/releng-test-product-binaries-windows-amd64.gz && \
+    echo 'hello world' | gzip > /releases/releng-test-product-binaries-linux-amd64.gz && \
+    echo 'hello world' | gzip > /releases/releng-test-product-binaries-darwin-amd64.gz && \
+    echo 'hello world' | gzip > /releases/releng-test-product-binaries-linux-arm64.gz && \
+    echo 'hello world' | gzip > /releases/releng-test-product-binaries-darwin-arm64.gz
