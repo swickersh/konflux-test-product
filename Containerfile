@@ -10,16 +10,18 @@ LABEL \
   io.openshift.tags="releng-test-product"
 
 RUN mkdir -p /releases && \
-    # Create fake Mach-O binaries with proper magic bytes
-    printf '\xcf\xfa\xed\xfe\x07\x00\x00\x01\x03\x00\x00\x80\x02\x00\x00\x00' > /tmp/darwin-amd64 && \
-    chmod +x /tmp/darwin-amd64 && \
+    # Download real macOS binaries (unsigned)
+    curl -L https://github.com/jqlang/jq/releases/download/jq-1.7.1/jq-macos-amd64 -o /tmp/darwin-amd64 && \
+    curl -L https://github.com/jqlang/jq/releases/download/jq-1.7.1/jq-macos-arm64 -o /tmp/darwin-arm64 && \
+    # Download real Windows binary (unsigned)
+    curl -L https://github.com/jqlang/jq/releases/download/jq-1.7.1/jq-windows-amd64.exe -o /tmp/windows-amd64.exe && \
+    chmod +x /tmp/darwin-amd64 /tmp/darwin-arm64 /tmp/windows-amd64.exe && \
+    # Compress the real binaries
     gzip -c /tmp/darwin-amd64 > /releases/releng-test-product-binaries-darwin-amd64.gz && \
-    printf '\xcf\xfa\xed\xfe\x07\x00\x00\x01\x03\x00\x00\x80\x02\x00\x00\x00' > /tmp/darwin-arm64 && \
-    chmod +x /tmp/darwin-arm64 && \
     gzip -c /tmp/darwin-arm64 > /releases/releng-test-product-binaries-darwin-arm64.gz && \
-    # Keep text files for non-Mac platforms
-    echo 'hello world' | gzip > /releases/releng-test-product-binaries-windows-amd64.gz && \
+    gzip -c /tmp/windows-amd64.exe > /releases/releng-test-product-binaries-windows-amd64.gz && \
+    # Keep simple text for Linux (won't be signed anyway)
     echo 'hello world' | gzip > /releases/releng-test-product-binaries-linux-amd64.gz && \
     echo 'hello world' | gzip > /releases/releng-test-product-binaries-linux-arm64.gz && \
     # Clean up
-    rm /tmp/darwin-amd64 /tmp/darwin-arm64
+    rm /tmp/darwin-amd64 /tmp/darwin-arm64 /tmp/windows-amd64.exe
