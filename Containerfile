@@ -16,12 +16,12 @@ RUN mkdir -p /releases && \
     # Download real Windows binary (unsigned)
     curl -L https://github.com/jqlang/jq/releases/download/jq-1.7.1/jq-windows-amd64.exe -o /tmp/windows-amd64.exe && \
     chmod +x /tmp/darwin-amd64 /tmp/darwin-arm64 /tmp/windows-amd64.exe && \
-    # Compress the real binaries
-    gzip -c /tmp/darwin-amd64 > /releases/releng-test-product-binaries-darwin-amd64.gz && \
-    gzip -c /tmp/darwin-arm64 > /releases/releng-test-product-binaries-darwin-arm64.gz && \
-    gzip -c /tmp/windows-amd64.exe > /releases/releng-test-product-binaries-windows-amd64.gz && \
+    # Compress the real binaries as tar.gz
+    tar -czf /releases/releng-test-product-binaries-darwin-amd64.tar.gz -C /tmp darwin-amd64 && \
+    tar -czf /releases/releng-test-product-binaries-darwin-arm64.tar.gz -C /tmp darwin-arm64 && \
+    tar -czf /releases/releng-test-product-binaries-windows-amd64.tar.gz -C /tmp windows-amd64.exe && \
     # Keep simple text for Linux (won't be signed anyway)
-    echo 'hello world' | gzip > /releases/releng-test-product-binaries-linux-amd64.gz && \
-    echo 'hello world' | gzip > /releases/releng-test-product-binaries-linux-arm64.gz && \
+    echo 'hello world' > /tmp/linux-amd64 && tar -czf /releases/releng-test-product-binaries-linux-amd64.tar.gz -C /tmp linux-amd64 && \
+    echo 'hello world' > /tmp/linux-arm64 && tar -czf /releases/releng-test-product-binaries-linux-arm64.tar.gz -C /tmp linux-arm64 && \
     # Clean up
-    rm /tmp/darwin-amd64 /tmp/darwin-arm64 /tmp/windows-amd64.exe
+    rm /tmp/darwin-amd64 /tmp/darwin-arm64 /tmp/windows-amd64.exe /tmp/linux-amd64 /tmp/linux-arm64
