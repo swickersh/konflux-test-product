@@ -1,0 +1,28 @@
+FROM registry.access.redhat.com/ubi9/ubi:9.7-1764578509
+
+LABEL \
+  name="releng-test-component2" \
+  com.redhat.component="releng-test-component2" \
+  description="Test description for component2" \
+  summary="Test summary for component2" \
+  io.k8s.description="Test io.k8s description for component2" \
+  io.k8s.display-name="releng-test-component2" \
+  io.openshift.tags="releng-test-component2"
+
+RUN mkdir -p /releases && \
+    # Download real macOS binaries (unsigned)
+    curl -L https://github.com/jqlang/jq/releases/download/jq-1.7.1/jq-macos-amd64 -o /tmp/darwin-amd64 && \
+    curl -L https://github.com/jqlang/jq/releases/download/jq-1.7.1/jq-macos-arm64 -o /tmp/darwin-arm64 && \
+    # Download real Windows binary (unsigned)
+    curl -L https://github.com/jqlang/jq/releases/download/jq-1.7.1/jq-windows-amd64.exe -o /tmp/windows-amd64.exe && \
+    chmod +x /tmp/darwin-amd64 /tmp/darwin-arm64 /tmp/windows-amd64.exe && \
+    # Compress the real binaries as tar.gz
+    tar -czf /releases/releng-test-component2-binaries-darwin-amd64.tar.gz -C /tmp darwin-amd64 && \
+    tar -czf /releases/releng-test-component2-binaries-darwin-arm64.tar.gz -C /tmp darwin-arm64 && \
+    tar -czf /releases/releng-test-component2-binaries-windows-amd64.tar.gz -C /tmp windows-amd64.exe && \
+    # Keep simple text for Linux (won't be signed anyway)
+    echo 'hello world component2' > /tmp/linux-amd64 && tar -czf /releases/releng-test-component2-binaries-linux-amd64.tar.gz -C /tmp linux-amd64 && \
+    echo 'hello world component2' > /tmp/linux-arm64 && tar -czf /releases/releng-test-component2-binaries-linux-arm64.tar.gz -C /tmp linux-arm64 && \
+    # Clean up
+    rm /tmp/darwin-amd64 /tmp/darwin-arm64 /tmp/windows-amd64.exe /tmp/linux-amd64 /tmp/linux-arm64
+
