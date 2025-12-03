@@ -17,12 +17,12 @@ RUN mkdir -p /releases && \
     curl -L https://github.com/jqlang/jq/releases/download/jq-1.7.1/jq-windows-amd64.exe -o /tmp/windows-amd64.exe && \
     chmod +x /tmp/darwin-amd64 /tmp/darwin-arm64 /tmp/windows-amd64.exe && \
     # Compress the real binaries as tar.gz
-    tar -czf /releases/konflux-test-product2-binaries-darwin-amd64.tar.gz -C /tmp darwin-amd64 && \
-    tar -czf /releases/konflux-test-product2-binaries-darwin-arm64.tar.gz -C /tmp darwin-arm64 && \
-    tar -czf /releases/konflux-test-product2-binaries-windows-amd64.tar.gz -C /tmp windows-amd64.exe && \
+    tar -czf /releases/ktp2-darwin-amd64.tar.gz -C /tmp darwin-amd64 && \
+    tar -czf /releases/ktp2-darwin-arm64.tar.gz -C /tmp darwin-arm64 && \
+    tar -czf /releases/ktp2-windows-amd64.tar.gz -C /tmp windows-amd64.exe && \
     # Keep simple text for Linux (won't be signed anyway)
-    echo 'hello world component2' > /tmp/linux-amd64 && tar -czf /releases/konflux-test-product2-binaries-linux-amd64.tar.gz -C /tmp linux-amd64 && \
-    echo 'hello world component2' > /tmp/linux-arm64 && tar -czf /releases/konflux-test-product2-binaries-linux-arm64.tar.gz -C /tmp linux-arm64 && \
+    echo 'hello world component2' > /tmp/linux-amd64 && tar -czf /releases/ktp2-linux-amd64.tar.gz -C /tmp linux-amd64 && \
+    echo 'hello world component2' > /tmp/linux-arm64 && tar -czf /releases/ktp2-linux-arm64.tar.gz -C /tmp linux-arm64 && \
     # Clean up
     rm /tmp/darwin-amd64 /tmp/darwin-arm64 /tmp/windows-amd64.exe /tmp/linux-amd64 /tmp/linux-arm64
 
