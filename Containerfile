@@ -10,7 +10,7 @@ LABEL \
   io.openshift.tags="releng-test-product"
 
 RUN mkdir -p /releases && \
-    # Download real macOS binaries (unsigned)
+    # Download real macOS binaries (unsigned) for testing only
     curl -L https://github.com/jqlang/jq/releases/download/jq-1.7.1/jq-macos-amd64 -o /tmp/darwin-amd64 && \
     curl -L https://github.com/jqlang/jq/releases/download/jq-1.7.1/jq-macos-arm64 -o /tmp/darwin-arm64 && \
     # Download real Windows binary (unsigned)
