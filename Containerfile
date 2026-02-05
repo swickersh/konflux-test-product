@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi9/ubi:9.7-1769417801
+FROM registry.access.redhat.com/ubi9/ubi:9.7-1770238273
 
 LABEL \
   name="releng-test-product" \
