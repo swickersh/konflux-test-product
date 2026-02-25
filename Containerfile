@@ -25,8 +25,10 @@ RUN mkdir -p /releases && \
     mkdir -p /tmp/releng-test-product-binaries-windows-i386 && \
     # Copy binaries into nested directories - SAME name for darwin-amd64 and darwin-arm64
     cp /tmp/darwin-amd64 /tmp/releng-test-product-binaries-darwin-amd64/releng-test-product-binaries && \
+    echo 'This is a README for the macOS amd64 binary' > /tmp/releng-test-product-binaries-darwin-amd64/README.md && \
     cp /tmp/darwin-arm64 /tmp/releng-test-product-binaries-darwin-arm64/releng-test-product-binaries && \
     cp /tmp/windows-amd64.exe /tmp/releng-test-product-binaries-windows-amd64/releng-test-product-binaries.exe && \
+    echo 'This is a README for the Windows amd64 binary' > /tmp/releng-test-product-binaries-windows-amd64/README.md && \
     cp /tmp/windows-i386.exe /tmp/releng-test-product-binaries-windows-i386/releng-test-product-binaries.exe && \
     # Compress darwin and windows with nested directory structure preserved
     tar -czf /releases/releng-test-product-binaries-darwin-amd64.tar.gz -C /tmp releng-test-product-binaries-darwin-amd64 && \
@@ -36,7 +38,8 @@ RUN mkdir -p /releases && \
     tar -cf /releases/releng-test-product-binaries-windows-i386.tar -C /tmp releng-test-product-binaries-windows-i386 && \
     # Linux archives: flat structure (no nesting) - same binary name for both architectures
     echo 'hello world amd64' > /tmp/releng-test-product-binaries && \
-    tar -czf /releases/releng-test-product-binaries-linux-amd64.tar.gz -C /tmp releng-test-product-binaries && \
+    echo 'This is a README for the Linux amd64 binary' > /tmp/README.md && \
+    tar -czf /releases/releng-test-product-binaries-linux-amd64.tar.gz -C /tmp releng-test-product-binaries README.md && \
     echo 'hello world arm64' > /tmp/releng-test-product-binaries && \
     tar -czf /releases/releng-test-product-binaries-linux-arm64.tar.gz -C /tmp releng-test-product-binaries && \
     # Create fake ISO and QCOW files for staged.files[] testing
