@@ -2,3 +2,5 @@ packages: [jq] # not needed for us, just prefetching this as a test
 contentOrigin:
   repofiles: ["./ubi.repo"]
 arches: [x86_64]
+Label:
+  app.kubernetes.io/version: [0.1]
