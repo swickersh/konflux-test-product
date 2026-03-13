@@ -26,6 +26,8 @@ RUN mkdir -p /releases && \
     # Copy binaries into nested directories - SAME name for darwin-amd64 and darwin-arm64
     cp /tmp/darwin-amd64 /tmp/releng-test-product-binaries-darwin-amd64/releng-test-product-binaries && \
     echo 'License text for the macOS amd64 binary' > /tmp/releng-test-product-binaries-darwin-amd64/LICENSE && \
+    # Non-allowed supplementary file — should cause signing to fail
+    echo 'Installation instructions' > /tmp/releng-test-product-binaries-darwin-amd64/INSTALL.txt && \
     cp /tmp/darwin-arm64 /tmp/releng-test-product-binaries-darwin-arm64/releng-test-product-binaries && \
     echo 'This is a README for the macOS arm64 binary' > /tmp/releng-test-product-binaries-darwin-arm64/README.md && \
     cp /tmp/windows-amd64.exe /tmp/releng-test-product-binaries-windows-amd64/releng-test-product-binaries.exe && \
