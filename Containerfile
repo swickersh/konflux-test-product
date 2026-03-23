@@ -33,6 +33,7 @@ RUN mkdir -p /releases && \
     cp /tmp/windows-amd64.exe /tmp/releng-test-product-binaries-windows-amd64/releng-test-product-binaries.exe && \
     echo 'This is a README for the Windows amd64 binary' > /tmp/releng-test-product-binaries-windows-amd64/README.MD && \
     echo 'Changelog for the Windows amd64 binary' > /tmp/releng-test-product-binaries-windows-amd64/CHANGELOG && \
+    echo 'Installation instructions' > /tmp/releng-test-product-binaries-windows-amd64/INSTALL.txt && \
     cp /tmp/windows-i386.exe /tmp/releng-test-product-binaries-windows-i386/releng-test-product-binaries.exe && \
     echo 'License text for the Windows i386 binary' > /tmp/releng-test-product-binaries-windows-i386/LICENSE.txt && \
     echo 'This is a README for the Windows i386 binary' > /tmp/releng-test-product-binaries-windows-i386/ReadMe && \
