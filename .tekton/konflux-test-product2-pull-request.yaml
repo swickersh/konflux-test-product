@@ -17,10 +17,19 @@ metadata:
   namespace: releng-test-product-tenant
 spec:
   params:
+    - name: git-url
+      value: '{{source_url}}'
+    - name: revision
+      value: '{{revision}}'
     - name: output-image
       value: quay.io/redhat-user-workloads/releng-test-product-tenant/konflux-test-product2:on-pr-{{revision}}
   pipelineSpec:
     params:
+      - name: git-url
+        type: string
+      - name: revision
+        type: string
+        default: ""
       - name: output-image
         type: string
     results:
@@ -28,8 +37,37 @@ spec:
         value: $(tasks.push-oras-disk-artifact.results.IMAGE_URL)
       - name: IMAGE_DIGEST
         value: $(tasks.push-oras-disk-artifact.results.IMAGE_DIGEST)
+      - name: CHAINS-GIT_URL
+        value: $(tasks.set-git-results.results.CHAINS_GIT_URL)
+      - name: CHAINS-GIT_COMMIT
+        value: $(tasks.set-git-results.results.CHAINS_GIT_COMMIT)
     tasks:
+      - name: set-git-results
+        taskSpec:
+          params:
+            - name: git-url
+              type: string
+            - name: revision
+              type: string
+          results:
+            - name: CHAINS_GIT_URL
+            - name: CHAINS_GIT_COMMIT
+          steps:
+            - name: set-results
+              image: registry.access.redhat.com/ubi9/ubi-minimal:latest
+              script: |
+                #!/usr/bin/env bash
+                set -euo pipefail
+                echo -n "$(params.git-url)" > "$(results.CHAINS_GIT_URL.path)"
+                echo -n "$(params.revision)" > "$(results.CHAINS_GIT_COMMIT.path)"
+        params:
+          - name: git-url
+            value: $(params.git-url)
+          - name: revision
+            value: $(params.revision)
       - name: push-oras-disk-artifact
+        runAfter:
+          - set-git-results
         taskSpec:
           params:
             - name: output-image
@@ -50,21 +88,26 @@ spec:
               script: |
                 #!/usr/bin/env bash
                 set -euo pipefail
+
                 mkdir -p artifacts
                 printf 'fake ISO content for amd64\n' > artifacts/install.iso.gz
                 printf 'fake QCOW content for amd64\n' > artifacts/disk.qcow2
-                AUTH_FILE="$(mktemp)"
-                select-oci-auth "$(params.output-image)" > "$AUTH_FILE"
-                push_output="$(oras push --registry-config "$AUTH_FILE" "$(params.output-image)" \
-                  artifacts/install.iso.gz artifacts/disk.qcow2 2>&1)"
-                printf '%s\n' "$push_output"
+
+                auth_file="$(mktemp)"
+                select-oci-auth "$(params.output-image)" > "${auth_file}"
+                push_output="$(
+                  cd artifacts && oras push --registry-config "${auth_file}" "$(params.output-image)" \
+                    install.iso.gz disk.qcow2 2>&1
+                )"
+                printf '%s\n' "${push_output}"
+
                 echo -n "$(params.output-image)" > "$(results.IMAGE_URL.path)"
-                digest="$(printf '%s\n' "$push_output" | awk '/^Digest:/ {print $2}' | tail -n1)"
-                if [ -z "$digest" ] ; then
+                digest="$(printf '%s\n' "${push_output}" | awk '/^Digest:/ {print $2}' | tail -n1)"
+                if [ -z "${digest}" ]; then
                   echo "Failed to parse digest from oras push output" >&2
                   exit 1
                 fi
-                echo -n "$digest" > "$(results.IMAGE_DIGEST.path)"
+                echo -n "${digest}" > "$(results.IMAGE_DIGEST.path)"
         params:
           - name: output-image
             value: $(params.output-image)
