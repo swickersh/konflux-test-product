@@ -23,6 +23,9 @@ RUN mkdir -p /releases && \
     # Keep simple text for Linux (won't be signed anyway)
     echo 'hello world component2' > /tmp/linux-amd64 && tar -czf /releases/ktp2-linux-amd64.tar.gz -C /tmp linux-amd64 && \
     echo 'hello world component2' > /tmp/linux-arm64 && tar -czf /releases/ktp2-linux-arm64.tar.gz -C /tmp linux-arm64 && \
+    # Create fake disk image files directly in /releases/ (no tar.gz wrapping)
+    echo 'fake ISO content for amd64' > /releases/install.iso.gz && \
+    echo 'fake QCOW content for amd64' > /releases/disk.qcow2 && \
     # Clean up
     rm /tmp/darwin-amd64 /tmp/darwin-arm64 /tmp/windows-amd64.exe /tmp/linux-amd64 /tmp/linux-arm64
 

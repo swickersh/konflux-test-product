@@ -39,15 +39,10 @@ RUN mkdir -p /releases && \
     tar -czf /releases/releng-test-product-binaries-linux-amd64.tar.gz -C /tmp releng-test-product-binaries && \
     echo 'hello world arm64' > /tmp/releng-test-product-binaries && \
     tar -czf /releases/releng-test-product-binaries-linux-arm64.tar.gz -C /tmp releng-test-product-binaries && \
-    # Create fake ISO and QCOW files for staged.files[] testing
-    echo 'fake ISO content for amd64' > /tmp/install.iso.gz && \
-    echo 'fake QCOW content for amd64' > /tmp/disk.qcow2 && \
-    echo 'fake ISO content for arm64' > /tmp/install-arm64.iso.gz && \
-    echo 'fake QCOW content for arm64' > /tmp/disk-arm64.qcow2 && \
-    # Compress ISO and QCOW files
-    tar -czf /releases/releng-test-product-iso-amd64.tar.gz -C /tmp install.iso.gz && \
-    tar -czf /releases/releng-test-product-qcow2-amd64.tar.gz -C /tmp disk.qcow2 && \
-    tar -czf /releases/releng-test-product-iso-arm64.tar.gz -C /tmp install-arm64.iso.gz && \
-    tar -czf /releases/releng-test-product-qcow2-arm64.tar.gz -C /tmp disk-arm64.qcow2 && \
+    # Create fake disk image files directly in /releases/ (no tar.gz wrapping)
+    echo 'fake ISO content for amd64' > /releases/install.iso.gz && \
+    echo 'fake QCOW content for amd64' > /releases/disk.qcow2 && \
+    echo 'fake ISO content for arm64' > /releases/install-arm64.iso.gz && \
+    echo 'fake QCOW content for arm64' > /releases/disk-arm64.qcow2 && \
     # Clean up
-    rm -rf /tmp/darwin-amd64 /tmp/darwin-arm64 /tmp/windows-amd64.exe /tmp/windows-i386.exe /tmp/releng-test-product-binaries /tmp/releng-test-product-binaries-* /tmp/install*.iso.gz /tmp/disk*.qcow2
+    rm -rf /tmp/darwin-amd64 /tmp/darwin-arm64 /tmp/windows-amd64.exe /tmp/windows-i386.exe /tmp/releng-test-product-binaries /tmp/releng-test-product-binaries-*
