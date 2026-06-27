@@ -79,7 +79,7 @@ spec:
               description: Digest of pushed ORAS artifact image
           steps:
             - name: generate-and-push
-              image: quay.io/konflux-ci/release-service-utils@sha256:04f3b2f47223a0fd06c688544fadd42473450224ad1fcb7c92afd2cbf5cc1030
+              image: quay.io/konflux-ci/release-service-utils@sha256:c728a5fc747b0f826a1f098cf334e2a8515c70ae9cc6d41bbdf0145cc39f452f
               env:
                 - name: HOME
                   value: /tekton/home
